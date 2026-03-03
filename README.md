@@ -23,20 +23,99 @@ Based on our enterprise-grade architecture, the project is organized as follows:
 ````text
 Storify-Backend/
 ├── 📁 prisma/
-│   └── 📁 schema/            # Modular Prisma schema definitions
+│   ├── 📁 schema/            # Modular Prisma schema definitions
+│   │   └── 📄 schema.prisma   # Main database schema
+│   └── 📁 migrations/         # Database migration files
 ├── 📁 src/
-│   ├── 📁 config/            # Environment & Third-party configs (Cloudinary, DB)
-│   ├── 📁 errors/            # Custom Error Handling (ApiError, Global Error)
+│   ├── 📁 config/            # Environment & Third-party configs
+│   │   ├── 📄 database.config.ts
+│   │   ├── 📄 cloudinary.config.ts
+│   │   └── 📄 email.config.ts
+│   ├── 📁 errors/            # Custom Error Handling
+│   │   ├── 📄 handleCastError.ts
+│   │   ├── 📄 handleDuplicateError.ts
+│   │   ├── 📄 handleDuplicateKeyError.ts
+│   │   └── 📄 ...
 │   ├── 📁 middleware/        # Auth, Validation & Role-based access
-│   ├── 📁 modules/           # Business Logic (User, Package, File, Folder)
-│   ├── 📁 routes/v1/         # API Route versioning
+│   │   ├── 📄 auth.middleware.ts
+│   │   ├── 📄 error.middleware.ts
+│   │   ├── 📄 not-found.middleware.ts
+│   │   └── 📄 validation.middleware.ts
+│   ├── 📁 modules/           # Business Logic Modules
+│   │   ├── 📁 auth/           # Authentication module
+│   │   │   ├── 📄 auth.controller.ts
+│   │   │   ├── 📄 auth.service.ts
+│   │   │   ├── 📄 auth.routes.ts
+│   │   │   ├── 📄 auth.validation.ts
+│   │   │   └── 📄 auth.interface.ts
+│   │   ├── 📁 user/           # User management module
+│   │   │   ├── 📄 user.controller.ts
+│   │   │   ├── 📄 user.service.ts
+│   │   │   ├── 📄 user.routes.ts
+│   │   │   ├── 📄 user.validation.ts
+│   │   │   ├── 📄 user.interface.ts
+│   │   │   ├── 📄 user.repository.ts
+│   │   │   └── 📄 user.cache.ts
+│   │   ├── 📁 packages/       # Package/Subscription module
+│   │   │   ├── 📄 package.controller.ts
+│   │   │   ├── 📄 package.service.ts
+│   │   │   ├── 📄 package.routes.ts
+│   │   │   ├── 📄 packages.validation.ts
+│   │   │   ├── 📄 packages.interface.ts
+│   │   │   ├── 📄 packages.repository.ts
+│   │   │   └── 📄 packages.cache.ts
+│   │   ├── 📁 subscriptionHistory/  # Subscription history module
+│   │   │   ├── 📄 subscriptionHistory.controller.ts
+│   │   │   ├── 📄 subscriptionHistory.service.ts
+│   │   │   ├── 📄 subscriptionHistory.routes.ts
+│   │   │   ├── 📄 subscriptionHistory.validation.ts
+│   │   │   ├── 📄 subscriptionHistory.interface.ts
+│   │   │   ├── 📄 subscriptionHistory.repository.ts
+│   │   │   └── 📄 subscriptionHistory.cache.ts
+│   │   ├── 📁 folders/        # Folder management module
+│   │   │   ├── � folder.controller.ts
+│   │   │   ├── 📄 folder.service.ts
+│   │   │   ├── 📄 folder.routes.ts
+│   │   │   ├── 📄 folders.validation.ts
+│   │   │   ├── 📄 folders.interface.ts
+│   │   │   └── 📄 folders.repository.ts
+│   │   ├── 📁 files/          # File management module
+│   │   │   ├── 📄 file.controller.ts
+│   │   │   ├── 📄 file.service.ts
+│   │   │   ├── 📄 file.routes.ts
+│   │   │   ├── 📄 files.validation.ts
+│   │   │   ├── 📄 files.interface.ts
+│   │   │   └── 📄 files.repository.ts
+│   │   └── 📁 otp/            # OTP verification module
+│   │       ├── 📄 otp.service.ts
+│   │       └── 📄 otp.interface.ts
 │   ├── 📁 shared/            # Reusable constants & types
-│   ├── 📁 utils/             # Helper functions (Cloudinary, File Processing)
+│   │   └── 📁 interfaces/
+│   │       └── 📄 pagination.interface.ts
+│   ├── 📁 utils/             # Helper functions
+│   │   ├── 📄 ApiError.ts
+│   │   ├── 📄 catchAsync.ts
+│   │   ├── 📄 fileUpload.utils.ts
+│   │   ├── 📄 pagination.utils.ts
+│   │   ├── 📄 pick.utils.ts
+│   │   ├── 📄 redis.utils.ts
+│   │   ├── 📄 sendResponse.ts
+│   │   └── 📄 storage.utils.ts
 │   ├── 📄 app.ts             # Express Application setup
 │   └── 📄 server.ts          # Server entry point
-├── 📄 .env                   # Environment variables
-├── 📄 prisma.config.ts       # Prisma configuration
-└── 📄 README.md              # Project documentation
+├── 📁 doc/                   # Documentation files
+├── 📁 postman/              # API documentation & collections
+├── 📄 .env                  # Environment variables
+├── 📄 .env.example          # Environment variables template
+├── 📄 .eslintrc.json        # ESLint configuration
+├── 📄 .gitignore            # Git ignore rules
+├── 📄 .prettierrc           # Prettier configuration
+├── 📄 package.json          # Dependencies and scripts
+├── 📄 package-lock.json     # Dependency lock file
+├── 📄 prisma.config.ts      # Prisma configuration
+├── 📄 tsconfig.json         # TypeScript configuration
+└── 📄 README.md             # Project documentation
+```
 
 ## 🗃️ Database Schema
 
