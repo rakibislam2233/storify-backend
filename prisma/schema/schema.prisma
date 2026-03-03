@@ -82,18 +82,19 @@ model Folder {
 
 // ── File Schema ──────────────────────────────────────────────────────────────
 model File {
-  id        String   @id @default(uuid())
-  name      String
-  type      String
-  size      Float
-  url       String
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  folderId  String
-  folder    Folder   @relation(fields: [folderId], references: [id])
-  isDeleted Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(uuid())
+  originalName String
+  name         String
+  type         String
+  size         Float
+  url          String
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  folderId     String
+  folder       Folder   @relation(fields: [folderId], references: [id])
+  isDeleted    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   @@map("files")
 }

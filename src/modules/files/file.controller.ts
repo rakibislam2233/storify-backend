@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import catchAsync from '../../utils/catchAsync';
+import { processFileUpload, processMultipleFileUploads } from '../../utils/fileUpload.utils';
 import pick from '../../utils/pick.utils';
 import sendResponse from '../../utils/sendResponse';
 import { FileService } from './file.service';
@@ -8,13 +9,71 @@ import { FileService } from './file.service';
 // -- Create File --
 const createFile = catchAsync(async (req: Request, res: Response) => {
   const { userId } = req.user;
-  const payload = req.body;
+  const { folderId } = req.body;
+
+  if (!req.file) {
+    return sendResponse(res, {
+      statusCode: StatusCodes.BAD_REQUEST,
+      success: false,
+      message: 'No file uploaded',
+    });
+  }
+
+  // Process and upload the file
+  const fileData = await processFileUpload(req.file, userId, folderId);
+
+  // Create file record in database
+  const payload = {
+    name: fileData.name,
+    type: fileData.type,
+    size: fileData.size,
+    url: fileData.url,
+    folderId: folderId,
+  };
+
   const result = await FileService.createFile(userId, payload);
   sendResponse(res, {
     statusCode: StatusCodes.CREATED,
     success: true,
     message: 'File uploaded successfully',
     data: result,
+  });
+});
+
+// -- Create Multiple Files --
+const createMultipleFiles = catchAsync(async (req: Request, res: Response) => {
+  const { userId } = req.user;
+  const { folderId } = req.body;
+
+  if (!req.files || !Array.isArray(req.files)) {
+    return sendResponse(res, {
+      statusCode: StatusCodes.BAD_REQUEST,
+      success: false,
+      message: 'No files uploaded',
+    });
+  }
+
+  // Process and upload multiple files
+  const filesData = await processMultipleFileUploads(req.files, userId, folderId);
+
+  // Create file records in database
+  const createPromises = filesData.map(fileData =>
+    FileService.createFile(userId, {
+      name: fileData.name,
+      type: fileData.type,
+      size: fileData.size,
+      url: fileData.url,
+      folderId: folderId,
+    })
+  );
+
+  const results = await Promise.all(createPromises);
+
+  sendResponse(res, {
+    statusCode: StatusCodes.CREATED,
+    success: true,
+    message: `${results.length} files uploaded successfully`,
+    data: results,
   });
 });
 
@@ -90,6 +149,7 @@ const deleteFile = catchAsync(async (req: Request, res: Response) => {
 // -- Export File Controller --
 export const FileController = {
   createFile,
+  createMultipleFiles,
   getFileById,
   getFilesByUserId,
   getFilesByFolderId,
