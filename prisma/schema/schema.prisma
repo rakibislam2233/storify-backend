@@ -21,6 +21,15 @@ enum UserStatus {
   DELETED
 }
 
+enum AllowedFileTypes {
+  IMAGE
+  VIDEO
+  AUDIO
+  PDF
+  DOCUMENT
+  OTHER
+}
+
 // ── User Schema ──────────────────────────────────────────────────────────────────────
 
 model User {
@@ -46,18 +55,18 @@ model User {
 
 // ── Package Schema ──────────────────────────────────────────────────────────────
 model Package {
-  id               String   @id @default(uuid())
-  name             String   @unique
+  id               String             @id @default(uuid())
+  name             String             @unique
   maxFolders       Int
   maxNestingLevel  Int
-  allowedFileTypes String[]
+  allowedFileTypes AllowedFileTypes[]
   maxFileSize      Float
   totalFileLimit   Int
   filesPerFolder   Int
-  isDeleted        Boolean  @default(false)
+  isDeleted        Boolean            @default(false)
   users            User[]
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
 
   @@map("packages")
 }

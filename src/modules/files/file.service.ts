@@ -1,12 +1,14 @@
 import { StatusCodes } from 'http-status-codes';
-import { UserStatus } from '../../../prisma/generated/enums';
+import { AllowedFileTypes, UserStatus } from '../../../prisma/generated/enums';
 import ApiError from '../../utils/ApiError';
+import { CloudinaryUtils } from '../../utils/cloudinary.utils';
 import { RedisUtils } from '../../utils/redis.utils';
-import { UserRepository } from '../user/user.repository';
 import { FolderRepository } from '../folders/folders.repository';
+import { UserRepository } from '../user/user.repository';
+import { FILE_CACHE_KEY, FILE_CACHE_TTL } from './file.cache';
 import { IFileFilter, IUpdateFile } from './files.interface';
 import { FileRepository } from './files.repository';
-import { FILE_CACHE_KEY, FILE_CACHE_TTL } from './file.cache';
+import { getFileCategory } from '../../utils/fileType.utils';
 
 // -- Create File --
 const createFile = async (userId: string, payload: any) => {
@@ -45,29 +47,46 @@ const createFile = async (userId: string, payload: any) => {
   if (newTotalSize > user.activePackage.totalFileLimit * 1024 * 1024) {
     throw new ApiError(StatusCodes.BAD_REQUEST, 'Total storage limit exceeded for your plan');
   }
-
-  // Check file type is allowed
-  const fileExtension = payload.type.split('/')[1]?.toLowerCase();
+  const fileCategory = getFileCategory(payload.type);
   const allowedTypes = user.activePackage.allowedFileTypes;
-  const isAllowed = allowedTypes.some(type => 
-    type.toLowerCase() === fileExtension || 
-    type.toLowerCase() === payload.type.toLowerCase()
-  );
+  const isAllowed = allowedTypes.includes(fileCategory);
+
   if (!isAllowed) {
-    throw new ApiError(StatusCodes.BAD_REQUEST, 'File type not allowed in your plan');
+    throw new ApiError(
+      StatusCodes.BAD_REQUEST,
+      `File type ${fileCategory} not allowed in your plan. Allowed types: ${allowedTypes.join(', ')}`
+    );
   }
 
   // Check file name exists in folder
   const fileNameExists = await FileRepository.checkFileNameExists(
-    payload.name,
+    payload.originalName,
     userId,
     payload.folderId
   );
   if (fileNameExists) {
-    throw new ApiError(StatusCodes.BAD_REQUEST, 'File with this name already exists in this folder');
+    throw new ApiError(
+      StatusCodes.BAD_REQUEST,
+      'File with this name already exists in this folder'
+    );
   }
 
-  const result = await FileRepository.createFile(userId, payload);
+  // Upload file to Cloudinary and get the generated name
+  const folderPath = `storify/files/user_${userId}/folder_${payload.folderId}`;
+  const cloudinaryResult = await CloudinaryUtils.uploadToCloudinary(
+    payload.url,
+    folderPath,
+    `${Date.now()}-${payload.originalName}`
+  );
+
+  // Update payload with Cloudinary data
+  const updatedPayload = {
+    ...payload,
+    name: cloudinaryResult.public_id,
+    url: cloudinaryResult.secure_url,
+  };
+
+  const result = await FileRepository.createFile(userId, updatedPayload);
 
   // Clear cache
   await RedisUtils.deleteCache(FILE_CACHE_KEY.USER_FILES(userId));
@@ -104,11 +123,7 @@ const getFileById = async (id: string, userId: string) => {
 };
 
 // -- Get All Files By User Id --
-const getFilesByUserId = async (
-  userId: string,
-  filters: IFileFilter,
-  options: any
-) => {
+const getFilesByUserId = async (userId: string, filters: IFileFilter, options: any) => {
   const cacheKey = FILE_CACHE_KEY.USER_FILES(userId);
   const cachedFiles = await RedisUtils.getCache<any>(cacheKey);
 
@@ -134,11 +149,7 @@ const getFilesByUserId = async (
 };
 
 // -- Get Files By Folder Id --
-const getFilesByFolderId = async (
-  folderId: string,
-  filters: IFileFilter,
-  options: any
-) => {
+const getFilesByFolderId = async (folderId: string, filters: IFileFilter, options: any) => {
   const cacheKey = FILE_CACHE_KEY.FOLDER_FILES(folderId);
   const cachedFiles = await RedisUtils.getCache<any>(cacheKey);
 
@@ -186,7 +197,8 @@ const updateFile = async (id: string, userId: string, payload: IUpdateFile) => {
 
     // Check files per folder limit in new folder
     const filesCount = await FileRepository.getFilesCountByFolderId(payload.folderId);
-    if (filesCount >= 10) { // TODO: Get from user package
+    if (filesCount >= 10) {
+      // TODO: Get from user package
       throw new ApiError(StatusCodes.BAD_REQUEST, 'Maximum files per folder reached');
     }
   }
@@ -194,13 +206,12 @@ const updateFile = async (id: string, userId: string, payload: IUpdateFile) => {
   // If updating name, check if name exists in folder
   if (payload.name && payload.name !== existingFile.name) {
     const folderId = payload.folderId || existingFile.folderId;
-    const fileNameExists = await FileRepository.checkFileNameExists(
-      payload.name,
-      userId,
-      folderId
-    );
+    const fileNameExists = await FileRepository.checkFileNameExists(payload.name, userId, folderId);
     if (fileNameExists) {
-      throw new ApiError(StatusCodes.BAD_REQUEST, 'File with this name already exists in this folder');
+      throw new ApiError(
+        StatusCodes.BAD_REQUEST,
+        'File with this name already exists in this folder'
+      );
     }
   }
 

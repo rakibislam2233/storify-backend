@@ -1,5 +1,6 @@
 export interface IFile {
   id: string;
+  originalName: string;
   name: string;
   type: string;
   size: number;
@@ -12,6 +13,7 @@ export interface IFile {
 }
 
 export interface ICreateFile {
+  originalName: string;
   name: string;
   type: string;
   size: number;
@@ -20,6 +22,7 @@ export interface ICreateFile {
 }
 
 export interface IUpdateFile {
+  originalName?: string;
   name?: string;
   folderId?: string;
 }

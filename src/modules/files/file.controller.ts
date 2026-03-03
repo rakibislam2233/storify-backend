@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import catchAsync from '../../utils/catchAsync';
-import { processFileUpload, processMultipleFileUploads } from '../../utils/fileUpload.utils';
 import pick from '../../utils/pick.utils';
 import sendResponse from '../../utils/sendResponse';
 import { FileService } from './file.service';
@@ -19,15 +18,13 @@ const createFile = catchAsync(async (req: Request, res: Response) => {
     });
   }
 
-  // Process and upload the file
-  const fileData = await processFileUpload(req.file, userId, folderId);
-
   // Create file record in database
   const payload = {
-    name: fileData.name,
-    type: fileData.type,
-    size: fileData.size,
-    url: fileData.url,
+    originalName: req.file.originalname,
+    name: req.file.originalname,
+    type: req.file.mimetype,
+    size: req.file.size,
+    url: req.file.buffer,
     folderId: folderId,
   };
 
@@ -53,16 +50,14 @@ const createMultipleFiles = catchAsync(async (req: Request, res: Response) => {
     });
   }
 
-  // Process and upload multiple files
-  const filesData = await processMultipleFileUploads(req.files, userId, folderId);
-
   // Create file records in database
-  const createPromises = filesData.map(fileData =>
+  const createPromises = req.files.map(file =>
     FileService.createFile(userId, {
-      name: fileData.name,
-      type: fileData.type,
-      size: fileData.size,
-      url: fileData.url,
+      originalName: file.originalname,
+      name: file.originalname,
+      type: file.mimetype,
+      size: file.size,
+      url: file.buffer,
       folderId: folderId,
     })
   );
