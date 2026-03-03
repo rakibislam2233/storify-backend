@@ -25,25 +25,22 @@ router.get(
 
 // ── Get Subscription Histories By User Id ─────────────────────────────────────────────
 router.get(
-  '/user/:userId',
+  '/user',
   auth(UserRole.USER),
-  validateRequest(SubscriptionHistoryValidation.getSubscriptionHistoriesByUserIdValidationSchema),
   SubscriptionHistoryController.getSubscriptionHistoriesByUserId
 );
 
 // ── Get Active Subscription By User Id ───────────────────────────────────────────────
 router.get(
-  '/active/:userId',
+  '/active',
   auth(UserRole.ADMIN, UserRole.USER),
-  validateRequest(SubscriptionHistoryValidation.getActiveSubscriptionByUserIdValidationSchema),
   SubscriptionHistoryController.getActiveSubscriptionByUserId
 );
 
 // ── Check User Has Active Subscription ───────────────────────────────────────────────
 router.get(
-  '/check-active/:userId',
+  '/check-active',
   auth(UserRole.ADMIN, UserRole.USER),
-  validateRequest(SubscriptionHistoryValidation.checkUserHasActiveSubscriptionValidationSchema),
   SubscriptionHistoryController.checkUserHasActiveSubscription
 );
 

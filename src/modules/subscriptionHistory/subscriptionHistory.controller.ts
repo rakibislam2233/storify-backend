@@ -51,7 +51,7 @@ const getAllSubscriptionHistories = catchAsync(async (req: Request, res: Respons
 
 // ── Get Subscription Histories By User Id ─────────────────────────────────────────────
 const getSubscriptionHistoriesByUserId = catchAsync(async (req: Request, res: Response) => {
-  const { userId } = req.params;
+  const { userId } = req.user;
   const filters = pick(req.query, ['searchTerm', 'startDate', 'endDate']);
   const options = pick(req.query, ['page', 'limit', 'sortBy', 'sortOrder']);
 
@@ -100,7 +100,7 @@ const deleteSubscriptionHistory = catchAsync(async (req: Request, res: Response)
 
 // ── Get Active Subscription By User Id ───────────────────────────────────────────────
 const getActiveSubscriptionByUserId = catchAsync(async (req: Request, res: Response) => {
-  const { userId } = req.params;
+  const { userId } = req.user;
   const result = await SubscriptionHistoryService.getActiveSubscriptionByUserId(userId as string);
 
   sendResponse(res, {
@@ -113,7 +113,7 @@ const getActiveSubscriptionByUserId = catchAsync(async (req: Request, res: Respo
 
 // ── Check User Has Active Subscription ───────────────────────────────────────────────
 const checkUserHasActiveSubscription = catchAsync(async (req: Request, res: Response) => {
-  const { userId } = req.params;
+  const { userId } = req.user;
   const result = await SubscriptionHistoryService.checkUserHasActiveSubscription(userId as string);
 
   sendResponse(res, {

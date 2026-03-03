@@ -58,7 +58,10 @@ const purchasePackage = async (userId: string, packageId: string) => {
     await RedisUtils.deleteCache(SUBSCRIPTION_HISTORY_CACHE_KEY.BY_USER_ID(userId));
     await RedisUtils.deleteCachePattern(SUBSCRIPTION_HISTORY_CACHE_KEY.USER_LIST(userId));
 
-    return updatedUser;
+    const subscriptionHistory = await SubscriptionHistoryRepository.getSubscriptionHistoryById(
+      updatedUser?.activePackageId as string
+    );
+    return subscriptionHistory;
   });
 
   return result;

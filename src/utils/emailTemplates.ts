@@ -339,23 +339,24 @@ export const sendWelcomeEmail = async (to: string, name: string): Promise<void> 
   const subject = 'Welcome to Storify!';
   const content = `
     <h1>Welcome, ${name}!</h1>
-    <p>You're now part of Storify — the most efficient way to connect with top job opportunities and hire the best talent.</p>
+    <p>You're now part of Storify — your premium file and folder management system with flexible subscription plans designed to meet your storage needs.</p>
     ${generateHighlightBox(`
       <p><strong>What you can do on Storify:</strong></p>
       <ul style="padding-left:24px; margin:16px 0;">
-        <li>Create a professional profile and upload your resume</li>
-        <li>Browse and apply for top job opportunities</li>
-        <li>Track your application status in real-time</li>
-        <li>Get personalized job alerts based on your skills</li>
+        <li>Organize files and folders with advanced nesting capabilities</li>
+        <li>Upload various file types based on your subscription tier</li>
+        <li>Enjoy storage limits that grow with your chosen plan</li>
+        <li>Manage folder depth and file counts per package restrictions</li>
+        <li>Upgrade seamlessly between Free, Silver, Gold, and Diamond tiers</li>
       </ul>
     `)}
-    <p>Ready to launch your next career move?</p>
-    ${generateButton('Explore Jobs', 'https://storify.app/jobs')}
+    <p>Ready to experience smart, scalable storage management?</p>
+    ${generateButton('Explore Your Dashboard', 'https://storify.app/dashboard')}
   `;
 
   const html = generateProfessionalEmailTemplate(content, {
     title: 'Welcome to Storify',
-    preheader: `Hi ${name}, your career journey starts now with Storify!`,
+    preheader: `Hi ${name}, start managing your files with Storify's smart storage system!`,
   });
 
   sendEmail({ to, subject, html });

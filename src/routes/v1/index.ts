@@ -3,6 +3,9 @@ import { AuthRoutes } from '../../modules/auth/auth.routes';
 import { UserRoutes } from '../../modules/user/user.routes';
 import { PackageRoutes } from '../../modules/packages/package.routes';
 import { DashboardRoutes } from '../../modules/dashboard/dashboard.routes';
+import { SubscriptionHistoryRoutes } from '../../modules/subscriptionHistory/subscriptionHistory.routes';
+import { FolderRoutes } from '../../modules/folders/folder.routes';
+import { FileRoutes } from '../../modules/files/file.routes';
 
 const router = Router();
 
@@ -17,8 +20,20 @@ const moduleRoutes = [
     route: UserRoutes,
   },
   {
+    path: '/folders',
+    route: FolderRoutes,
+  },
+  {
+    path: '/files',
+    route: FileRoutes,
+  },
+  {
     path: '/packages',
     route: PackageRoutes,
+  },
+  {
+    path: '/subscription-history',
+    route: SubscriptionHistoryRoutes,
   },
   {
     path: '/dashboard',
