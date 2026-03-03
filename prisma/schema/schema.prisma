@@ -61,6 +61,7 @@ model Package {
   maxFolders       Int
   maxNestingLevel  Int
   allowedFileTypes AllowedFileTypes[]
+  price            Float?
   maxFileSize      Float
   totalFileLimit   Int
   filesPerFolder   Int
