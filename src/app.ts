@@ -283,7 +283,7 @@ app.use(generalApiRateLimiter);
 app.use('/api/v1', version1Routes);
 
 // Health check endpoints
-app.get('/test', (req: Request, res: Response) => {
+app.get('/', (req: Request, res: Response) => {
   res.status(200).json({
     success: true,
     message: '🚀 Storify Backend API is running smoothly!',
@@ -300,7 +300,6 @@ app.get('/test', (req: Request, res: Response) => {
       security: 'Fortified',
     },
     documentation: {
-      swagger: config.env !== 'production' ? '/api-docs' : 'Contact admin for documentation',
       routes: '/api/v1',
     },
   });
