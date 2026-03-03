@@ -48,20 +48,21 @@ Below is the Entity-Relationship Diagram showing the complete database structure
 
 </div>
 
-### 🎯 Key Features
 
-- **🔐 Advanced Authentication**: JWT-based auth with refresh tokens, role-based access control (Admin, Company, User)
-- **💼 Job Management**: Complete CRUD operations with status management (Pending, Approved, Rejected, Closed)
-- **🏢 Company Profiles**: Comprehensive company management with verification system
-- **📁 Application Tracking**: Full application lifecycle management with interview scheduling
-- **🏷️ Category System**: Flexible job categorization with job count tracking
-- **💾 Smart Caching**: Redis-based caching for optimal performance
-- **📡 Real-time Features**: Socket.IO integration for live notifications
-- **🔒 Enterprise Security**: Comprehensive security measures (CORS, CSRF, XSS, Rate Limiting)
-- **📊 Advanced Logging**: Structured logging with Winston and daily rotation
-- **📁 File Management**: Cloudinary integration for file uploads
-- **🔍 Advanced Search**: Full-text search with filtering and pagination
-- **📈 Analytics Dashboard**: Comprehensive admin analytics and reporting
+### 🎯 Key Features
+- ** 🔐 Advanced Authentication: JWT-based auth with refresh tokens, role-based access control (Admin, User)
+- **💎 Subscription Constraints: Dynamic plan-level restrictions for folders, nesting depth, and file counts
+- **🛡️ Admin Package Management: Full CRUD operations for subscription tiers (Free, Silver, Gold, Diamond) with real-time limit updates
+- **📁 Recursive Folder System: Advanced folder management with multi-level nesting, renaming, and secure deletion
+- **☁️ Secure File Storage: Seamless Cloudinary integration for robust file uploads and metadata management via Prisma
+- **🚫 Real-time Enforcement: Strict server-side validation for file types, max sizes, and storage limits before cloud processing
+- **📂 File Operations: Complete file lifecycle management including viewing, downloading, and renaming within folders
+- **📜 Subscription History: Detailed tracking of user plan transitions and active dates
+- **💾 Smart Caching: Redis-based caching for frequent package and profile data retrieval
+- **📊 Admin Analytics: Overview of user storage usage, active subscriptions, and system-wide file statistics
+- **🔒 Enterprise Security: Comprehensive protection including CORS, Rate Limiting, and input validation with Zod
+- **📝 Structured Logging: Advanced logging with Winston and daily rotation for system monitoring
+
 
 ## 🛠️ Technology Stack
 
