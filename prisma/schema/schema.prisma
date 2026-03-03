@@ -51,6 +51,7 @@ model Package {
   maxFileSize      Float // In MB
   totalFileLimit   Int
   filesPerFolder   Int
+  isDeleted        Boolean  @default(false)
   users            User[]
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt

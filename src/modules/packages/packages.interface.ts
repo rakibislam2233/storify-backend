@@ -32,3 +32,8 @@ export interface IUpdatePackage {
   totalFileLimit?: number;
   filesPerFolder: number;
 }
+
+// -- Filter packages
+export interface IPackageFilter {
+  searchTerm?: string;
+}
