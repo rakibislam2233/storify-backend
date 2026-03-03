@@ -52,3 +52,17 @@ const getAllPackages = async (
   ]);
   return createPaginationResult(subPackages, total, pagination);
 };
+
+const getPackageById = async (id: string) => {
+  const subPackage = await database.package.findUnique({
+    where: { id },
+  });
+  return subPackage;
+};
+
+const getPackageByName = async (name: string) => {
+  const subPackage = await database.package.findUnique({
+    where: { name },
+  });
+  return subPackage;
+};
