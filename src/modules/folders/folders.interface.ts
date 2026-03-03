@@ -6,6 +6,8 @@ export interface IFolder {
   parentId: string | null;
   createdAt: Date;
   updatedAt: Date;
+  children?: IFolder[];
+  parent?: IFolder | null;
 }
 
 export interface ICreateFolder {
