@@ -52,9 +52,7 @@ const createFolder = async (userId: string, payload: any) => {
       'Folder with this name already exists in this location'
     );
   }
-
   const result = await FolderRepository.createFolder(userId, payload);
-
   // Clear cache
   await RedisUtils.deleteCache(FOLDER_CACHE_KEY.USER_FOLDERS(userId));
   await RedisUtils.deleteCache(FOLDER_CACHE_KEY.ROOT_FOLDERS(userId));
@@ -80,7 +78,6 @@ const getFolderById = async (id: string, userId: string) => {
   if (!folder) {
     throw new ApiError(StatusCodes.NOT_FOUND, 'Folder not found');
   }
-
   // Check if user owns this folder
   if (folder.userId !== userId) {
     throw new ApiError(StatusCodes.FORBIDDEN, 'You do not have permission to access this folder');
@@ -276,7 +273,7 @@ const deleteFolder = async (id: string, userId: string) => {
   return result;
 };
 
-// -- Helper function to check circular reference --
+// -- Helper function --
 const checkCircularReference = async (folderId: string, newParentId: string): Promise<boolean> => {
   let currentParent = await FolderRepository.getFolderById(newParentId);
 

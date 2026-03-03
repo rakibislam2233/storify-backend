@@ -23,9 +23,11 @@ const createFolder = async (userId: string, payload: ICreateFolder) => {
 // -- Get Folder By Id --
 const getFolderById = async (id: string): Promise<IFolder | null> => {
   return database.folder.findUnique({
-    where: { id },
+    where: { id, isDeleted: false },
     include: {
-      children: true,
+      children: {
+        where: { isDeleted: false },
+      },
       parent: true,
     },
   });
@@ -39,7 +41,10 @@ const getFoldersByUserId = async (
 ): Promise<IPaginationResult<IFolder>> => {
   const pagination = parsePaginationOptions(options);
   const { skip, take, orderBy } = createPaginationQuery(pagination);
-  const where: any = { userId };
+  const where: any = {
+    userId,
+    isDeleted: false,
+  };
 
   if (filters.searchTerm) {
     where.OR = [{ name: { contains: filters.searchTerm, mode: 'insensitive' } }];
@@ -57,7 +62,9 @@ const getFoldersByUserId = async (
     database.folder.findMany({
       where,
       include: {
-        children: true,
+        children: {
+          where: { isDeleted: false },
+        },
         parent: true,
       },
       skip,
@@ -72,7 +79,7 @@ const getFoldersByUserId = async (
   return createPaginationResult(folders, total, pagination);
 };
 
-// -- Get Root Folders By User Id (folders without parent) --
+// -- Get Root Folders By User Id --
 const getRootFoldersByUserId = async (
   userId: string,
   filters: IFolderFilter,
@@ -83,6 +90,7 @@ const getRootFoldersByUserId = async (
   const where: any = {
     userId,
     parentId: null,
+    isDeleted: false,
   };
 
   if (filters.searchTerm) {
@@ -97,7 +105,9 @@ const getRootFoldersByUserId = async (
     database.folder.findMany({
       where,
       include: {
-        children: true,
+        children: {
+          where: { isDeleted: false },
+        },
       },
       skip,
       take,
@@ -149,10 +159,11 @@ const updateFolder = async (
   });
 };
 
-// -- Delete Folder --
+// -- Delete Folder (Soft Delete) --
 const deleteFolder = async (id: string, userId: string): Promise<IFolder> => {
-  return database.folder.delete({
+  return database.folder.update({
     where: { id },
+    data: { isDeleted: true },
   });
 };
 
@@ -162,6 +173,7 @@ const checkFolderExists = async (id: string, userId: string): Promise<boolean> =
     where: {
       id,
       userId,
+      isDeleted: false,
     },
   });
   return !!folder;
@@ -178,6 +190,7 @@ const checkFolderNameExists = async (
       name,
       userId,
       parentId: parentId || null,
+      isDeleted: false,
     },
   });
   return !!folder;
@@ -186,7 +199,7 @@ const checkFolderNameExists = async (
 // -- Get Folder Level --
 const getFolderLevel = async (id: string): Promise<number> => {
   const folder = await database.folder.findUnique({
-    where: { id },
+    where: { id, isDeleted: false },
     select: { level: true },
   });
   return folder?.level || 0;

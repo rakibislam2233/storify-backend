@@ -4,6 +4,7 @@ export interface IFolder {
   level: number;
   userId: string;
   parentId: string | null;
+  isDeleted: boolean;
   createdAt: Date;
   updatedAt: Date;
   children?: IFolder[];
