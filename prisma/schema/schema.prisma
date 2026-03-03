@@ -33,22 +33,23 @@ enum AllowedFileTypes {
 // ── User Schema ──────────────────────────────────────────────────────────────────────
 
 model User {
-  id              String     @id @default(uuid())
-  fullName        String
-  email           String     @unique
-  password        String
-  phoneNumber     String?
-  profileImage    String?
-  role            UserRole   @default(USER)
-  status          UserStatus @default(ACTIVE)
-  isEmailVerified Boolean    @default(false)
-  lastLoginAt     DateTime   @default(now())
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
-  activePackage   Package?   @relation(fields: [activePackageId], references: [id])
-  activePackageId String?
-  folders         Folder[]
-  files           File[]
+  id                    String                @id @default(uuid())
+  fullName              String
+  email                 String                @unique
+  password              String
+  phoneNumber           String?
+  profileImage          String?
+  role                  UserRole              @default(USER)
+  status                UserStatus            @default(ACTIVE)
+  isEmailVerified       Boolean               @default(false)
+  lastLoginAt           DateTime              @default(now())
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+  activePackage         Package?              @relation(fields: [activePackageId], references: [id])
+  activePackageId       String?
+  folders               Folder[]
+  files                 File[]
+  subscriptionHistories SubscriptionHistory[]
 
   @@map("users")
 }
@@ -106,4 +107,17 @@ model File {
   updatedAt    DateTime @updatedAt
 
   @@map("files")
+}
+
+// --- SubscriptionHistory 
+model SubscriptionHistory {
+  id          String    @id @default(uuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  packageName String
+  price       Float
+  startDate   DateTime  @default(now())
+  endDate     DateTime?
+
+  @@map("subscription_histories")
 }
