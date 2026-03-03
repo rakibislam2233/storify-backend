@@ -8,8 +8,9 @@ import {
   createPaginationResult,
   parsePaginationOptions,
 } from '../../utils/pagination.utils';
-import { ICreatePackage, IPackage, IPackageFilter } from './packages.interface';
+import { ICreatePackage, IPackage, IPackageFilter, IUpdatePackage } from './packages.interface';
 
+// -- Create Package --
 const createPackage = async (packageData: ICreatePackage): Promise<IPackage> => {
   const newPackage = await database.package.create({
     data: packageData,
@@ -17,6 +18,7 @@ const createPackage = async (packageData: ICreatePackage): Promise<IPackage> => 
   return newPackage;
 };
 
+// -- Get All Packages --
 const getAllPackages = async (
   filters: IPackageFilter,
   options: IPaginationOptions
@@ -53,6 +55,7 @@ const getAllPackages = async (
   return createPaginationResult(subPackages, total, pagination);
 };
 
+// -- Get Package By Id --
 const getPackageById = async (id: string) => {
   const subPackage = await database.package.findUnique({
     where: { id },
@@ -60,9 +63,37 @@ const getPackageById = async (id: string) => {
   return subPackage;
 };
 
+// -- Get Package By Name --
 const getPackageByName = async (name: string) => {
   const subPackage = await database.package.findUnique({
     where: { name },
   });
   return subPackage;
+};
+
+// -- Update Package --
+const updatePackage = async (id: string, packageData: IUpdatePackage) => {
+  const updatedPackage = await database.package.update({
+    where: { id },
+    data: packageData,
+  });
+  return updatedPackage;
+};
+
+// -- Delete Package --
+const deletePackage = async (id: string) => {
+  const deletedPackage = await database.package.update({
+    where: { id },
+    data: { isDeleted: true },
+  });
+  return deletedPackage;
+};
+
+export const PackageRepository = {
+  createPackage,
+  getAllPackages,
+  getPackageById,
+  getPackageByName,
+  updatePackage,
+  deletePackage,
 };
