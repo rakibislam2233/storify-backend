@@ -1,0 +1,21 @@
+export interface IFolder {
+  id: string;
+  name: string;
+  level: number;
+  userId: string;
+  parentId: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface ICreateFolder {
+  name: string;
+  level: number;
+  parentId: string;
+}
+
+export interface IUpdateFolder {
+  name: string;
+  level: number;
+  parentId: string;
+}
