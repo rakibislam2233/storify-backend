@@ -3,9 +3,9 @@ import { UserStatus } from '../../../prisma/generated/enums';
 import ApiError from '../../utils/ApiError';
 import { RedisUtils } from '../../utils/redis.utils';
 import { UserRepository } from '../user/user.repository';
+import { FOLDER_CACHE_KEY, FOLDER_CACHE_TTL } from './folder.cache';
 import { IFolderFilter, IUpdateFolder } from './folders.interface';
 import { FolderRepository } from './folders.repository';
-import { FOLDER_CACHE_KEY, FOLDER_CACHE_TTL } from './folder.cache';
 
 // -- Create Folder --
 const createFolder = async (userId: string, payload: any) => {
@@ -140,8 +140,8 @@ const getRootFoldersByUserId = async (userId: string, filters: IFolderFilter, op
 
   return result;
 };
-// -- Get Child Folders By Parent Id --
 
+// -- Get Child Folders By Parent Id --
 const getChildFoldersByParentId = async (parentId: string, userId: string) => {
   // Check parent folder exists and user owns it
 
@@ -301,4 +301,6 @@ export const FolderService = {
   getFoldersByUserId,
   updateFolder,
   deleteFolder,
+  getChildFoldersByParentId,
+  getRootFoldersByUserId,
 };
