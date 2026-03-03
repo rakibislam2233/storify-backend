@@ -4,7 +4,7 @@ export interface ISubscriptionHistory {
   packageName: string;
   price: number;
   startDate: Date;
-  endDate?: Date;
+  endDate: Date | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -15,7 +15,7 @@ export interface ICreateSubscriptionHistory {
   packageName: string;
   price: number;
   startDate?: Date;
-  endDate?: Date;
+  endDate: Date | null;
 }
 
 // -- Update Subscription History Interface --
@@ -23,7 +23,7 @@ export interface IUpdateSubscriptionHistory {
   packageName?: string;
   price?: number;
   startDate?: Date;
-  endDate?: Date;
+  endDate: Date | null;
 }
 
 // -- Filter Subscription History --
