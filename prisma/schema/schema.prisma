@@ -39,6 +39,7 @@ model User {
   activePackage   Package?   @relation(fields: [activePackageId], references: [id])
   activePackageId String?
   folders         Folder[]
+  files           File[]
 
   @@map("users")
 }
@@ -62,7 +63,6 @@ model Package {
 }
 
 // ── Folder Schema ──────────────────────────────────────────────────────────────
-
 model Folder {
   id        String   @id @default(uuid())
   name      String
@@ -75,6 +75,25 @@ model Folder {
   isDeleted Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  files     File[]
 
   @@map("folders")
+}
+
+// ── File Schema ──────────────────────────────────────────────────────────────
+model File {
+  id        String   @id @default(uuid())
+  name      String
+  type      String
+  size      Float
+  url       String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  folderId  String
+  folder    Folder   @relation(fields: [folderId], references: [id])
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("files")
 }
