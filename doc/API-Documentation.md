@@ -14,6 +14,7 @@
 ## 🔐 Authentication
 
 ### Base URL
+
 ```
 http://localhost:8082/api/v1/auth
 ```
@@ -21,9 +22,11 @@ http://localhost:8082/api/v1/auth
 ### Endpoints
 
 #### POST /auth/register
+
 Register a new user account.
 
 **Request Body:**
+
 ```json
 {
   "fullName": "John Doe",
@@ -34,6 +37,7 @@ Register a new user account.
 ```
 
 **Response (201):**
+
 ```json
 {
   "success": true,
@@ -58,9 +62,11 @@ Register a new user account.
 ```
 
 #### POST /auth/login
+
 Authenticate user and return tokens.
 
 **Request Body:**
+
 ```json
 {
   "email": "john@example.com",
@@ -69,6 +75,7 @@ Authenticate user and return tokens.
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -91,9 +98,11 @@ Authenticate user and return tokens.
 ```
 
 #### POST /auth/refresh
+
 Refresh access token using refresh token.
 
 **Request Body:**
+
 ```json
 {
   "refreshToken": "jwt_refresh_token"
@@ -101,6 +110,7 @@ Refresh access token using refresh token.
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -113,14 +123,17 @@ Refresh access token using refresh token.
 ```
 
 #### POST /auth/logout
+
 Logout user and invalidate tokens.
 
 **Headers:**
+
 ```
 Authorization: Bearer <access_token>
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -134,6 +147,7 @@ Authorization: Bearer <access_token>
 ## 👤 User Management
 
 ### Base URL
+
 ```
 http://localhost:8082/api/v1/users
 ```
@@ -141,14 +155,17 @@ http://localhost:8082/api/v1/users
 ### Endpoints
 
 #### GET /users/profile/me
+
 Get current user's profile.
 
 **Headers:**
+
 ```
 Authorization: Bearer <access_token>
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -175,15 +192,18 @@ Authorization: Bearer <access_token>
 ```
 
 #### PATCH /users/profile/me
+
 Update current user's profile.
 
 **Headers:**
+
 ```
 Authorization: Bearer <access_token>
 Content-Type: multipart/form-data
 ```
 
 **Request Body (Form Data):**
+
 ```
 fullName: "John Updated"
 phoneNumber: "+1234567890"
@@ -191,6 +211,7 @@ profileImage: <file>
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -208,14 +229,17 @@ profileImage: <file>
 ```
 
 #### GET /users (Admin Only)
+
 Get all users with pagination and filtering.
 
 **Headers:**
+
 ```
 Authorization: Bearer <admin_access_token>
 ```
 
 **Query Parameters:**
+
 ```
 page: 1
 limit: 10
@@ -227,6 +251,7 @@ sortOrder: "desc"
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -256,6 +281,7 @@ sortOrder: "desc"
 ## 💎 Packages
 
 ### Base URL
+
 ```
 http://localhost:8082/api/v1/packages
 ```
@@ -263,14 +289,17 @@ http://localhost:8082/api/v1/packages
 ### Endpoints
 
 #### POST /packages (Admin Only)
+
 Create a new subscription package.
 
 **Headers:**
+
 ```
 Authorization: Bearer <admin_access_token>
 ```
 
 **Request Body:**
+
 ```json
 {
   "name": "Platinum",
@@ -285,6 +314,7 @@ Authorization: Bearer <admin_access_token>
 ```
 
 **Response (201):**
+
 ```json
 {
   "success": true,
@@ -307,9 +337,11 @@ Authorization: Bearer <admin_access_token>
 ```
 
 #### GET /packages
+
 Get all available packages.
 
 **Query Parameters:**
+
 ```
 page: 1
 limit: 10
@@ -319,6 +351,7 @@ sortOrder: "asc"
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -346,9 +379,11 @@ sortOrder: "asc"
 ```
 
 #### GET /packages/:id
+
 Get specific package by ID.
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -371,14 +406,17 @@ Get specific package by ID.
 ```
 
 #### PATCH /packages/:id (Admin Only)
+
 Update package details.
 
 **Headers:**
+
 ```
 Authorization: Bearer <admin_access_token>
 ```
 
 **Request Body:**
+
 ```json
 {
   "name": "Gold Plus",
@@ -388,6 +426,7 @@ Authorization: Bearer <admin_access_token>
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -404,14 +443,17 @@ Authorization: Bearer <admin_access_token>
 ```
 
 #### DELETE /packages/:id (Admin Only)
+
 Soft delete a package.
 
 **Headers:**
+
 ```
 Authorization: Bearer <admin_access_token>
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -431,6 +473,7 @@ Authorization: Bearer <admin_access_token>
 ## 📜 Subscription History
 
 ### Base URL
+
 ```
 http://localhost:8082/api/v1/subscription-history
 ```
@@ -438,14 +481,17 @@ http://localhost:8082/api/v1/subscription-history
 ### Endpoints
 
 #### POST /subscription-history/purchase
+
 Purchase a new subscription package.
 
 **Headers:**
+
 ```
 Authorization: Bearer <access_token>
 ```
 
 **Request Body:**
+
 ```json
 {
   "packageId": "package_uuid"
@@ -453,6 +499,7 @@ Authorization: Bearer <access_token>
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -469,14 +516,17 @@ Authorization: Bearer <access_token>
 ```
 
 #### GET /subscription-history
+
 Get all subscription histories (Admin Only).
 
 **Headers:**
+
 ```
 Authorization: Bearer <admin_access_token>
 ```
 
 **Query Parameters:**
+
 ```
 page: 1
 limit: 10
@@ -489,6 +539,7 @@ sortOrder: "desc"
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -520,14 +571,17 @@ sortOrder: "desc"
 ```
 
 #### GET /subscription-history/user/:userId
+
 Get subscription histories for specific user.
 
 **Headers:**
+
 ```
 Authorization: Bearer <access_token>
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -554,9 +608,11 @@ Authorization: Bearer <access_token>
 ```
 
 #### GET /subscription-history/active/:userId
+
 Get user's current active subscription.
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -579,9 +635,11 @@ Get user's current active subscription.
 ```
 
 #### GET /subscription-history/check-active/:userId
+
 Check if user has active subscription.
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -594,9 +652,11 @@ Check if user has active subscription.
 ```
 
 #### GET /subscription-history/:id
+
 Get specific subscription history by ID.
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -621,14 +681,17 @@ Get specific subscription history by ID.
 ```
 
 #### PATCH /subscription-history/:id (Admin Only)
+
 Update subscription history.
 
 **Headers:**
+
 ```
 Authorization: Bearer <admin_access_token>
 ```
 
 **Request Body:**
+
 ```json
 {
   "packageName": "Gold Plus",
@@ -638,6 +701,7 @@ Authorization: Bearer <admin_access_token>
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -654,14 +718,17 @@ Authorization: Bearer <admin_access_token>
 ```
 
 #### DELETE /subscription-history/:id (Admin Only)
+
 Delete subscription history.
 
 **Headers:**
+
 ```
 Authorization: Bearer <admin_access_token>
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -680,6 +747,7 @@ Authorization: Bearer <admin_access_token>
 ## 📁 Folders
 
 ### Base URL
+
 ```
 http://localhost:8082/api/v1/folders
 ```
@@ -687,14 +755,17 @@ http://localhost:8082/api/v1/folders
 ### Endpoints
 
 #### POST /folders
+
 Create a new folder.
 
 **Headers:**
+
 ```
 Authorization: Bearer <access_token>
 ```
 
 **Request Body:**
+
 ```json
 {
   "name": "Documents",
@@ -703,6 +774,7 @@ Authorization: Bearer <access_token>
 ```
 
 **Response (201):**
+
 ```json
 {
   "success": true,
@@ -721,14 +793,17 @@ Authorization: Bearer <access_token>
 ```
 
 #### GET /folders
+
 Get user's folders with pagination.
 
 **Headers:**
+
 ```
 Authorization: Bearer <access_token>
 ```
 
 **Query Parameters:**
+
 ```
 page: 1
 limit: 10
@@ -739,6 +814,7 @@ sortOrder: "asc"
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -764,9 +840,11 @@ sortOrder: "asc"
 ```
 
 #### GET /folders/:id
+
 Get specific folder by ID.
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -800,14 +878,17 @@ Get specific folder by ID.
 ```
 
 #### PATCH /folders/:id
+
 Update folder details.
 
 **Headers:**
+
 ```
 Authorization: Bearer <access_token>
 ```
 
 **Request Body:**
+
 ```json
 {
   "name": "Work Documents"
@@ -815,6 +896,7 @@ Authorization: Bearer <access_token>
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -829,14 +911,17 @@ Authorization: Bearer <access_token>
 ```
 
 #### DELETE /folders/:id
+
 Delete folder (soft delete).
 
 **Headers:**
+
 ```
 Authorization: Bearer <access_token>
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -856,6 +941,7 @@ Authorization: Bearer <access_token>
 ## 📄 Files
 
 ### Base URL
+
 ```
 http://localhost:8082/api/v1/files
 ```
@@ -863,21 +949,25 @@ http://localhost:8082/api/v1/files
 ### Endpoints
 
 #### POST /files
+
 Upload a file to a folder.
 
 **Headers:**
+
 ```
 Authorization: Bearer <access_token>
 Content-Type: multipart/form-data
 ```
 
 **Request Body (Form Data):**
+
 ```
 file: <file>
 folderId: "folder_uuid"
 ```
 
 **Response (201):**
+
 ```json
 {
   "success": true,
@@ -899,14 +989,17 @@ folderId: "folder_uuid"
 ```
 
 #### GET /files
+
 Get user's files with pagination.
 
 **Headers:**
+
 ```
 Authorization: Bearer <access_token>
 ```
 
 **Query Parameters:**
+
 ```
 page: 1
 limit: 10
@@ -918,6 +1011,7 @@ sortOrder: "desc"
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -947,9 +1041,11 @@ sortOrder: "desc"
 ```
 
 #### GET /files/:id
+
 Get specific file by ID.
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -974,27 +1070,33 @@ Get specific file by ID.
 ```
 
 #### GET /files/:id/download
+
 Download file by ID.
 
 **Headers:**
+
 ```
 Authorization: Bearer <access_token>
 ```
 
 **Response (200):**
+
 ```
 File download stream
 ```
 
 #### PATCH /files/:id
+
 Update file details.
 
 **Headers:**
+
 ```
 Authorization: Bearer <access_token>
 ```
 
 **Request Body:**
+
 ```json
 {
   "name": "updated_document.pdf"
@@ -1002,6 +1104,7 @@ Authorization: Bearer <access_token>
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -1016,14 +1119,17 @@ Authorization: Bearer <access_token>
 ```
 
 #### DELETE /files/:id
+
 Delete file (soft delete).
 
 **Headers:**
+
 ```
 Authorization: Bearer <access_token>
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -1118,32 +1224,280 @@ All endpoints return errors in the following format:
 
 ---
 
-## 📝 Notes
+## � Dashboard & Analytics
+
+### Base URL
+
+```
+http://localhost:8082/api/v1/dashboard
+```
+
+### Endpoints
+
+#### GET /dashboard/admin/stats (Admin Only)
+
+Get comprehensive admin dashboard statistics.
+
+**Headers:**
+
+```
+Authorization: Bearer <admin_access_token>
+```
+
+**Response (200):**
+
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "message": "Admin dashboard stats retrieved successfully",
+  "data": {
+    "totalUsers": 1250,
+    "activeUsers": 890,
+    "totalPackages": 4,
+    "totalRevenue": 15420.5,
+    "storageUsage": {
+      "totalFiles": 15420,
+      "totalSize": 524288000
+    }
+  }
+}
+```
+
+#### GET /dashboard/user/stats/:userId
+
+Get user-specific dashboard statistics.
+
+**Headers:**
+
+```
+Authorization: Bearer <access_token>
+```
+
+**Response (200):**
+
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "message": "User dashboard stats retrieved successfully",
+  "data": {
+    "currentPlan": {
+      "name": "Gold Plus",
+      "maxFolders": 50,
+      "maxFileSize": 20971520,
+      "totalFileLimit": 1073741824,
+      "filesPerFolder": 100,
+      "allowedFileTypes": ["IMAGE", "VIDEO", "PDF"],
+      "price": 12.99
+    },
+    "usage": {
+      "foldersUsed": 25,
+      "filesUsed": 150,
+      "storageUsed": 524288000,
+      "storagePercentage": 48.82
+    },
+    "recentFiles": [
+      {
+        "id": "uuid",
+        "name": "document.pdf",
+        "type": "application/pdf",
+        "size": 1048576,
+        "uploadedAt": "2024-01-01T10:30:00.000Z"
+      }
+    ]
+  }
+}
+```
+
+#### GET /dashboard/admin/charts (Admin Only)
+
+Get admin chart data for analytics dashboard.
+
+**Headers:**
+
+```
+Authorization: Bearer <admin_access_token>
+```
+
+**Response (200):**
+
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "message": "Admin chart data retrieved successfully",
+  "data": {
+    "monthlyRegistrations": [
+      {
+        "month": "2024-01-01T00:00:00.000Z",
+        "count": 120
+      }
+    ],
+    "monthlySubscriptions": [
+      {
+        "month": "2024-01-01T00:00:00.000Z",
+        "count": 85,
+        "revenue": 1275.0
+      }
+    ],
+    "planDistribution": [
+      {
+        "packageName": "Free",
+        "count": 500,
+        "percentage": 40
+      }
+    ],
+    "userActivity": {
+      "active": 890,
+      "inactive": 360
+    },
+    "storageByPlan": [
+      {
+        "planName": "Gold Plus",
+        "totalSize": 1073741824,
+        "fileCount": 2500
+      }
+    ]
+  }
+}
+```
+
+#### GET /dashboard/user/charts/:userId
+
+Get user-specific chart data.
+
+**Headers:**
+
+```
+Authorization: Bearer <access_token>
+```
+
+**Response (200):**
+
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "message": "User chart data retrieved successfully",
+  "data": {
+    "monthlyFileUploads": [
+      {
+        "month": "2024-01-01T00:00:00.000Z",
+        "count": 25,
+        "totalSize": 52428800
+      }
+    ],
+    "fileTypeDistribution": [
+      {
+        "type": "image/jpeg",
+        "count": 50,
+        "size": 104857600
+      }
+    ],
+    "storageOverTime": [
+      {
+        "month": "2024-01-01T00:00:00.000Z",
+        "fileCount": 150,
+        "cumulativeSize": 524288000
+      }
+    ],
+    "folderDepthDistribution": [
+      {
+        "level": 1,
+        "count": 20
+      }
+    ]
+  }
+}
+```
+
+#### GET /dashboard/analytics (Admin Only)
+
+Get comprehensive analytics data.
+
+**Headers:**
+
+```
+Authorization: Bearer <admin_access_token>
+```
+
+**Query Parameters:**
+
+- `days` (optional, default: 30) - Number of days for analytics data
+
+**Response (200):**
+
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "message": "Analytics data retrieved successfully",
+  "data": {
+    "userRegistrations": [
+      {
+        "date": "2024-01-01",
+        "count": 15
+      }
+    ],
+    "subscriptionPurchases": [
+      {
+        "date": "2024-01-01",
+        "count": 8,
+        "revenue": 95.92
+      }
+    ],
+    "planDistribution": [
+      {
+        "planName": "Free",
+        "count": 500,
+        "percentage": 40
+      }
+    ],
+    "storageTrends": [
+      {
+        "date": "2024-01-01",
+        "totalSize": 1073741824,
+        "fileCount": 1500
+      }
+    ]
+  }
+}
+```
+
+---
+
+## �📝 Notes
 
 ### Authentication
+
 - All protected endpoints require `Authorization: Bearer <access_token>` header
 - Access tokens expire after 15 minutes
 - Use refresh token to get new access token
 - Admin-only endpoints require user with `ADMIN` role
 
 ### File Uploads
+
 - Maximum file size depends on user's subscription plan
 - Supported file types: IMAGE, VIDEO, AUDIO, PDF, DOCUMENT, OTHER
 - Files are stored on Cloudinary
 - File names are automatically prefixed with timestamp to avoid conflicts
 
 ### Pagination
+
 - All list endpoints support pagination
 - Default page: 1, limit: 10
 - Maximum limit: 100
 - Response includes `meta` object with pagination info
 
 ### Rate Limiting
+
 - API endpoints are rate-limited to prevent abuse
 - Standard limits: 100 requests per minute per user
 - Upload endpoints: 10 requests per minute per user
 
 ### Caching
+
 - Frequently accessed data is cached using Redis
 - Cache is automatically invalidated when data changes
 - Cached data includes: user profiles, packages, subscription history
@@ -1179,4 +1533,4 @@ curl -X GET http://localhost:8082/api/v1/users/profile/me \
 
 ---
 
-*Last updated: January 2024*
+_Last updated: January 2024_

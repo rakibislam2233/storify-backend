@@ -262,10 +262,48 @@ http://localhost:8082/api/v1
 - `POST /auth/refresh` - Refresh access token
 - `POST /auth/logout` - User logout
 
-#### � User Management
+#### 📦 Package Management
 
-- `GET /users/profile/me` - Get user profile
-- `PATCH /users/profile/me` - Update user profile
+- `GET /packages` - Get all available packages
+- `GET /packages/:id` - Get package by ID
+- `POST /packages` - Create new package (Admin only)
+- `PATCH /packages/:id` - Update package (Admin only)
+- `DELETE /packages/:id` - Delete package (Admin only)
+
+#### 💳 Subscription Management
+
+- `POST /subscription-history/purchase` - Purchase a package
+- `GET /subscription-history` - Get all subscription histories (Admin only)
+- `GET /subscription-history/user/:userId` - Get user's subscription history
+- `GET /subscription-history/active/:userId` - Get user's active subscription
+- `GET /subscription-history/check-active/:userId` - Check if user has active subscription
+- `GET /subscription-history/:id` - Get subscription history by ID
+- `PATCH /subscription-history/:id` - Update subscription history (Admin only)
+- `DELETE /subscription-history/:id` - Delete subscription history (Admin only)
+
+#### 📊 Dashboard & Analytics
+
+- `GET /dashboard/admin/stats` - Get admin dashboard statistics (Admin only)
+- `GET /dashboard/user/stats/:userId` - Get user dashboard statistics
+- `GET /dashboard/admin/charts` - Get admin chart data (Admin only)
+- `GET /dashboard/user/charts/:userId` - Get user chart data
+- `GET /dashboard/analytics` - Get analytics data (Admin only)
+
+#### 📁 Folder Management
+
+- `POST /folders` - Create folder
+- `GET /folders` - Get user folders
+- `GET /folders/:id` - Get folder by ID
+- `PATCH /folders/:id` - Update folder
+- `DELETE /folders/:id` - Delete folder
+
+#### 📄 File Management
+
+- `POST /files` - Upload file
+- `GET /files` - Get user files
+- `GET /files/:id` - Get file by ID
+- `PATCH /files/:id` - Update file
+- `DELETE /files/:id` - Delete file
 
 ### 📖 Complete API Reference
 
