@@ -26,7 +26,6 @@ router
   .route('/:id')
   //   -- Get Package By Id --
   .get(
-    auth(UserRole.ADMIN),
     validateRequest(PackageValidation.getPackageByIdValidationSchema),
     PackageController.getPackageById
   )

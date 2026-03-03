@@ -1,9 +1,9 @@
 import { database } from '../../config/database.config';
+import { IPaginationResult } from '../../shared/interfaces/pagination.interface';
 import { sendWelcomeEmail } from '../../utils/emailTemplates';
 import {
   createPaginationQuery,
   createPaginationResult,
-  PaginationResult,
   parsePaginationOptions,
 } from '../../utils/pagination.utils';
 import { ICreateAccountPayload } from './user.interface';
@@ -24,19 +24,17 @@ const createAccount = async (payload: ICreateAccountPayload) => {
 // ── Get User by ID ─────────────────────────────────────────────────────────────
 const getUserById = async (id: string) => {
   return database.user.findFirst({
-    where: { id, isDeleted: false },
+    where: { id },
     select: {
       id: true,
       fullName: true,
       email: true,
       phoneNumber: true,
       profileImage: true,
-      bio: true,
       password: true,
       isEmailVerified: true,
       status: true,
       role: true,
-      isDeleted: true,
       createdAt: true,
     },
   });
@@ -44,7 +42,7 @@ const getUserById = async (id: string) => {
 
 // ── Get User by Email ──────────────────────────────────────────────────────────
 const getUserByEmail = async (email: string) => {
-  return database.user.findFirst({ where: { email, isDeleted: false } });
+  return database.user.findFirst({ where: { email } });
 };
 
 // ── Update User by ID ──────────────────────────────────────────────────────────
@@ -53,11 +51,11 @@ const updateUserById = async (id: string, data: Record<string, unknown>) => {
 };
 
 // ── Get All Users (Admin) ──────────────────────────────────────────────────────
-const getAllUsersForAdmin = async (filters: any, options: any): Promise<PaginationResult<any>> => {
+const getAllUsersForAdmin = async (filters: any, options: any): Promise<IPaginationResult<any>> => {
   const pagination = parsePaginationOptions(options);
   const { skip, take, orderBy } = createPaginationQuery(pagination);
 
-  const where: any = { isDeleted: false, role: { not: 'ADMIN' } };
+  const where: any = { status: { not: 'DELETED' }, role: { not: 'ADMIN' } };
 
   if (filters.fullName) where.fullName = { contains: filters.fullName, mode: 'insensitive' };
   if (filters.email) where.email = { contains: filters.email, mode: 'insensitive' };
@@ -104,7 +102,7 @@ const getAllUsersForAdmin = async (filters: any, options: any): Promise<Paginati
 const deleteUserById = async (id: string) => {
   return database.user.update({
     where: { id },
-    data: { isDeleted: true, status: 'DELETED' },
+    data: { status: 'DELETED' },
   });
 };
 

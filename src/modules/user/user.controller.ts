@@ -25,7 +25,7 @@ const getAllUsers = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Users fetched successfully',
-    meta: users.pagination,
+    meta: users.meta,
     data: users.data,
   });
 });

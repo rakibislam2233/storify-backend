@@ -11,14 +11,14 @@ const router = Router();
 // Get own profile
 router
   .route('/profile/me')
-  .get(auth(UserRole.ADMIN, UserRole.COMPANY, UserRole.USER), UserController.getUserProfile)
+  .get(auth(UserRole.ADMIN, UserRole.USER), UserController.getUserProfile)
   .patch(
-    auth(UserRole.ADMIN, UserRole.COMPANY, UserRole.USER),
+    auth(UserRole.ADMIN, UserRole.USER),
     upload.single('profileImage'),
     validateRequest(UserValidations.updateMyProfile),
     UserController.updateMyProfile
   )
-  .delete(auth(UserRole.ADMIN, UserRole.COMPANY, UserRole.USER), UserController.deleteMyProfile);
+  .delete(auth(UserRole.ADMIN, UserRole.USER), UserController.deleteMyProfile);
 
 // Admin: get all users
 router.get('/', auth(UserRole.ADMIN), UserController.getAllUsers);
