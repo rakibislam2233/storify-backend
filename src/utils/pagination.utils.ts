@@ -1,20 +1,10 @@
+import { IPaginationResult } from '../shared/interfaces/pagination.interface';
+
 export interface PaginationOptions {
   page?: number;
   limit?: number;
   sortBy?: string;
   sortOrder?: 'asc' | 'desc';
-}
-
-export interface PaginationResult<T> {
-  data: T[];
-  pagination: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-    hasNext: boolean;
-    hasPrev: boolean;
-  };
 }
 
 export const parsePaginationOptions = (query: any): Required<PaginationOptions> => {
@@ -52,19 +42,17 @@ export const createPaginationResult = <T>(
   data: T[],
   total: number,
   options: Required<PaginationOptions>
-): PaginationResult<T> => {
+): IPaginationResult<T> => {
   const { page, limit } = options;
   const totalPages = Math.ceil(total / limit);
 
   return {
     data,
-    pagination: {
+    meta: {
       page,
       limit,
       total,
       totalPages,
-      hasNext: page < totalPages,
-      hasPrev: page > 1,
     },
   };
 };
