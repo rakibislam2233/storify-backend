@@ -1,0 +1,9 @@
+node_modules
+dist
+/uploads
+/winston
+/logs
+.env
+.claude
+/prisma/generated/
+readme
