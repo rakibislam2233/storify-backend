@@ -7,6 +7,7 @@ export interface IPackage {
   maxFileSize: number;
   totalFileLimit: number;
   filesPerFolder: number;
+  isDeleted: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
