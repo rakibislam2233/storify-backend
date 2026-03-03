@@ -10,12 +10,10 @@ export interface IFolder {
 
 export interface ICreateFolder {
   name: string;
-  level: number;
   parentId: string;
 }
 
 export interface IUpdateFolder {
   name: string;
-  level: number;
   parentId: string;
 }
