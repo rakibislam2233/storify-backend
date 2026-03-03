@@ -7,7 +7,7 @@ import { FolderService } from './folder.services';
 
 // -- Create Folder --
 const createFolder = catchAsync(async (req: Request, res: Response) => {
-  const userId = req.user?.id;
+  const { userId } = req.user;
   const payload = req.body;
   const result = await FolderService.createFolder(userId, payload);
   sendResponse(res, {
@@ -21,7 +21,7 @@ const createFolder = catchAsync(async (req: Request, res: Response) => {
 // -- Get Folder By Id --
 const getFolderById = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id as string;
-  const userId = req.user?.id;
+  const { userId } = req.user;
   const result = await FolderService.getFolderById(id, userId);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
@@ -33,7 +33,7 @@ const getFolderById = catchAsync(async (req: Request, res: Response) => {
 
 // -- Get All Folders By User Id --
 const getFoldersByUserId = catchAsync(async (req: Request, res: Response) => {
-  const userId = req.user?.id;
+  const { userId } = req.user;
   const filters = pick(req.query, ['searchTerm', 'level', 'parentId']);
   const options = pick(req.query, ['page', 'limit', 'sortBy', 'sortOrder']);
   const result = await FolderService.getFoldersByUserId(userId, filters, options);
@@ -48,7 +48,7 @@ const getFoldersByUserId = catchAsync(async (req: Request, res: Response) => {
 
 // -- Get Root Folders By User Id --
 const getRootFoldersByUserId = catchAsync(async (req: Request, res: Response) => {
-  const userId = req.user?.id;
+  const { userId } = req.user;
   const filters = pick(req.query, ['searchTerm', 'level']);
   const options = pick(req.query, ['page', 'limit', 'sortBy', 'sortOrder']);
   const result = await FolderService.getRootFoldersByUserId(userId, filters, options);
@@ -64,7 +64,7 @@ const getRootFoldersByUserId = catchAsync(async (req: Request, res: Response) =>
 // -- Get Child Folders By Parent Id --
 const getChildFoldersByParentId = catchAsync(async (req: Request, res: Response) => {
   const parentId = req.params.id as string;
-  const userId = req.user?.id;
+  const { userId } = req.user;
   const result = await FolderService.getChildFoldersByParentId(parentId, userId);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
@@ -77,7 +77,7 @@ const getChildFoldersByParentId = catchAsync(async (req: Request, res: Response)
 // -- Update Folder --
 const updateFolder = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id as string;
-  const userId = req.user?.id;
+  const { userId } = req.user;
   const payload = req.body;
   const result = await FolderService.updateFolder(id, userId, payload);
   sendResponse(res, {
@@ -91,7 +91,7 @@ const updateFolder = catchAsync(async (req: Request, res: Response) => {
 // -- Delete Folder --
 const deleteFolder = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id as string;
-  const userId = req.user?.id;
+  const { userId } = req.user;
   await FolderService.deleteFolder(id, userId);
   sendResponse(res, {
     statusCode: StatusCodes.OK,

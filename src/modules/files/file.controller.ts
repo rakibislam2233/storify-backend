@@ -7,7 +7,7 @@ import { FileService } from './file.service';
 
 // -- Create File --
 const createFile = catchAsync(async (req: Request, res: Response) => {
-  const userId = req.user?.id;
+  const { userId } = req.user;
   const payload = req.body;
   const result = await FileService.createFile(userId, payload);
   sendResponse(res, {
@@ -21,7 +21,7 @@ const createFile = catchAsync(async (req: Request, res: Response) => {
 // -- Get File By Id --
 const getFileById = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id as string;
-  const userId = req.user?.id;
+  const { userId } = req.user;
   const result = await FileService.getFileById(id, userId);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
@@ -33,7 +33,7 @@ const getFileById = catchAsync(async (req: Request, res: Response) => {
 
 // -- Get All Files By User Id --
 const getFilesByUserId = catchAsync(async (req: Request, res: Response) => {
-  const userId = req.user?.id;
+  const { userId } = req.user;
   const filters = pick(req.query, ['searchTerm', 'type', 'folderId']);
   const options = pick(req.query, ['page', 'limit', 'sortBy', 'sortOrder']);
   const result = await FileService.getFilesByUserId(userId, filters, options);
@@ -64,7 +64,7 @@ const getFilesByFolderId = catchAsync(async (req: Request, res: Response) => {
 // -- Update File --
 const updateFile = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id as string;
-  const userId = req.user?.id;
+  const { userId } = req.user;
   const payload = req.body;
   const result = await FileService.updateFile(id, userId, payload);
   sendResponse(res, {
@@ -78,7 +78,7 @@ const updateFile = catchAsync(async (req: Request, res: Response) => {
 // -- Delete File --
 const deleteFile = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id as string;
-  const userId = req.user?.id;
+  const { userId } = req.user;
   await FileService.deleteFile(id, userId);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
