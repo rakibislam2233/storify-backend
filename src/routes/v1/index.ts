@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { AuthRoutes } from '../../modules/auth/auth.routes';
 import { UserRoutes } from '../../modules/user/user.routes';
 import { PackageRoutes } from '../../modules/packages/package.routes';
+import { DashboardRoutes } from '../../modules/dashboard/dashboard.routes';
 
 const router = Router();
 
@@ -18,6 +19,10 @@ const moduleRoutes = [
   {
     path: '/packages',
     route: PackageRoutes,
+  },
+  {
+    path: '/dashboard',
+    route: DashboardRoutes,
   },
 ];
 

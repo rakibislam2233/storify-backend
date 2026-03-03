@@ -78,7 +78,9 @@ const updateMyProfile = async (
   // Clear cache
   await RedisUtils.deleteCache(USER_CACHE_KEY.PROFILE(userId));
 
-  return updatedUser;
+  //password remove
+  const { password, ...userWithoutPassword } = updatedUser;
+  return userWithoutPassword;
 };
 
 // ── Update User by ID (Admin) ──────────────────────────────────────────────────

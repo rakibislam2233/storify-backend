@@ -5,7 +5,6 @@ const generateProfessionalEmailTemplate = (
   options: { title: string; preheader?: string }
 ): string => {
   const { title, preheader = '' } = options;
-  const logoUrl = 'https://res.cloudinary.com/dwddmg323/image/upload/v1770434490/logo_sddfri.png';
 
   return `
 <!DOCTYPE html>
@@ -18,179 +17,236 @@ const generateProfessionalEmailTemplate = (
     body {
       margin: 0;
       padding: 0;
-      background: #F8FAFC;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      color: #1E293B;
+      background: #F6F6F6;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      color: #2d3748;
       line-height: 1.6;
     }
     table { border-collapse: collapse; }
 
     .email-wrapper {
-      background: #F8FAFC;
-      padding: 40px 20px;
+      background: #F6F6F6;
+       padding: 40px 20px;
     }
 
     .container {
-      max-width: 600px;
-      margin: 30px 20px; 
+      max-width: 520px;
+       margin: 30px auto; 
       background-color: #FFFFFF;
-      border-radius: 16px;
+      border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     }
 
     .logo-section {
       text-align: center;
-      padding: 32px 20px 10px;
+      padding: 15px;
       background: #FFFFFF;
+      border-bottom: 1px solid #e2e8f0;
     }
 
-    .logo-text {
-      font-size: 28px;
-      font-weight: 800;
-      color: #4640DE;
-      letter-spacing: -1px;
-      margin: 0;
-      font-family: 'Inter', sans-serif;
+    .logo-section img {
+      max-width: 100px;
+      height: auto;
+      display: inline-block;
     }
 
     .content {
-      padding: 0 40px 40px;
-      font-size: 16px;
-      color: #334155;
+      padding: 32px 28px;
+      font-size: 15px;
+      color: #4a5568;
     }
 
-    .content h1, .content h2 {
-      color: #0F172A;
-      font-size: 24px;
-      margin: 0 0 20px 0;
-      font-weight: 700;
-      letter-spacing: -0.5px;
+    .content h2 {
+      color: #9300D3;
+      font-size: 20px;
+      margin: 0 0 16px 0;
+      font-weight: 600;
+      letter-spacing: -0.3px;
     }
 
     .content p {
-      margin: 0 0 16px;
-      color: #475569;
+      margin: 0 0 14px;
+      color: #4a5568;
     }
 
     .otp-code {
-      font-family: 'Monaco', 'Consolas', monospace;
-      font-size: 32px;
-      font-weight: 800;
-      letter-spacing: 8px;
-      color: #4640DE;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 28px;
+      font-weight: bold;
+      letter-spacing: 6px;
+      color: #9300D3;
       text-align: center;
-      padding: 24px;
-      background: #F1F5F9;
-      border-radius: 12px;
-      margin: 24px 0;
-      border: 1px solid #E2E8F0;
+      padding: 18px;
+      background: #FFFFFF;
+      border: 2px dashed #9300D3;
+      border-radius: 8px;
+      margin: 20px 0;
     }
 
     .highlight-box {
-      background: #F1F5F9;
-      padding: 16px 20px;
+      padding: 18px 20px;
       margin: 20px 0;
-      border-radius: 10px;
+      border-radius: 6px;
       font-size: 14px;
     }
 
-    .highlight-box strong {
-        color: #0F172A;
+    .highlight-box p {
+      margin: 0 0 10px;
     }
 
     .highlight-box ul {
-      margin: 12px 0 0;
+      margin: 8px 0;
       padding-left: 20px;
     }
 
     .highlight-box li {
+      margin-bottom: 6px;
+      color: #4a5568;
+    }
+
+    .credentials-table {
+      width: 100%;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      overflow: hidden;
+      margin: 18px 0;
+      font-size: 14px;
+    }
+
+    .credentials-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #edf2f7;
+    }
+
+    .credentials-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .credentials-table td:first-child {
+      background-color: #f7fafc;
+      font-weight: 600;
+      width: 38%;
+      color: #2d3748;
+    }
+
+    .credentials-table td:last-child {
+      color: #4a5568;
+    }
+
+    .footer {
+      background: #FFFFFF;
+      padding: 20px 28px;
+      text-align: center;
+      font-size: 13px;
+      color: #718096;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .footer p {
+      margin: 0 0 6px;
+    }
+
+    .footer a {
+      color: #9300D3;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-logo {
+      font-weight: 700;
+      font-size: 14px;
+      color: #2d3748;
       margin-bottom: 8px;
-      color: #475569;
+    }
+
+    .footer-tagline {
+      color: #a0aec0;
+      font-size: 12px;
+      font-style: italic;
+      margin-top: 12px;
+    }
+
+    .social-links {
+      margin: 16px 0;
+    }
+
+    .social-links a {
+      display: inline-block;
+      margin: 0 8px;
+      transition: transform 0.2s ease;
+    }
+
+    .social-links a:hover {
+      transform: translateY(-2px);
+    }
+
+    .social-links img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
     }
 
     .button {
       display: inline-block;
-      background: #4640DE;
+      background: linear-gradient(135deg, #9300D3 0%, #7a00b0 100%);
       color: #FFFFFF !important;
-      padding: 14px 32px;
+      padding: 12px 28px;
       text-decoration: none;
-      border-radius: 8px;
+      border-radius: 6px;
       font-weight: 600;
-      font-size: 16px;
-      margin: 24px 0;
-      text-align: center;
+      font-size: 14px;
+      margin: 20px 0;
+      box-shadow: 0 2px 8px rgba(147, 0, 211, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(147, 0, 211, 0.4);
     }
 
     .status-badge {
       display: inline-block;
-      padding: 6px 12px;
-      border-radius: 99px;
-      font-size: 12px;
-      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
     .badge-pending {
-      background: #FEF3C7;
-      color: #92400E;
+      background: #fef3c7;
+      color: #92400e;
     }
 
     .badge-approved {
-      background: #DCFCE7;
-      color: #166534;
-    }
-
-    .status-approved {
-        background: #DCFCE7;
-        color: #166534;
+      background: #d1fae5;
+      color: #065f46;
     }
 
     .badge-rejected {
-      background: #FEE2E2;
-      color: #991B1B;
-    }
-
-    .status-rejected {
-        background: #FEE2E2;
-        color: #991B1B;
-    }
-
-    .footer {
-      background: #FFFFFF;
-      padding: 20px 40px;
-      text-align: center;
-      font-size: 14px;
-      color: #64748B;
-      border-top: 1px solid #F1F5F9;
-    }
-    .social-links {
-      margin: 20px 0 24px;
-    }
-
-    .social-icon {
-      display: inline-block;
-      margin: 0 12px;
-      text-decoration: none;
-    }
-
-    .social-icon img {
-      width: 24px;
-      height: 24px;
-      margin-bottom: 0;
-      opacity: 0.7;
-    }
-
-    .footer a {
-      color: #4640DE;
-      text-decoration: none;
+      background: #fee2e2;
+      color: #991b1b;
     }
 
     @media (max-width: 600px) {
-      .email-wrapper { padding: 20px 10px; }
-      .content { padding: 0 24px 32px; }
-      .logo-section { padding: 24px 20px; }
+      .email-wrapper { padding: 24px 12px; }
+      .container { margin: 0; border-radius: 8px; }
+      .logo-section { padding: 20px 16px 16px; }
+      .logo-section img { max-width: 80px; }
+      .content { padding: 24px 20px; font-size: 14px; }
+      .content h2 { font-size: 18px; }
+      .footer { padding: 20px 20px; }
+      .otp-code { font-size: 24px; letter-spacing: 4px; padding: 16px; }
+      .credentials-table { font-size: 13px; }
+      .credentials-table td { padding: 8px 12px; }
+      .social-links img { width: 28px; height: 28px; }
     }
   </style>
 </head>
@@ -208,7 +264,13 @@ const generateProfessionalEmailTemplate = (
           <!-- Logo -->
           <tr>
             <td class="logo-section">
-              <div class="logo-text">Storify</div>
+              <svg width="200" height="60" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg" style="display: inline-block;">
+                <path d="M45 20a10 10 0 0 0-9.9 8.6A7 7 0 0 0 36 42h16a7 7 0 0 0 1.9-13.4A10 10 0 0 0 45 20z" fill="#9300D3"/>
+                <path d="M42 30h6v6h-6z" fill="#FFFFFF"/>
+                <path d="M43.5 28a1.5 1.5 0 0 1 1.5 1.5v.5h-3v-.5a1.5 1.5 0 0 1 1.5-1.5z" fill="#FFFFFF"/>
+                <path d="M45 33l-1.5 1.5L42 33" stroke="#FFFFFF" stroke-width="1" fill="none"/>
+                <text x="65" y="40" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#2d3748">Storify</text>
+              </svg>
             </td>
           </tr>
 
@@ -222,22 +284,25 @@ const generateProfessionalEmailTemplate = (
           <!-- Footer -->
           <tr>
             <td class="footer">
-              <div class="social-links">
-                <a href="https://facebook.com/storify" class="social-icon">
-                  <img src="https://img.icons8.com/ios-filled/50/4640DE/facebook-new.png" alt="Facebook">
-                </a>
-                <a href="https://instagram.com/storify" class="social-icon">
-                  <img src="https://img.icons8.com/ios-filled/50/4640DE/instagram-new.png" alt="Instagram">
-                </a>
-                <a href="https://linkedin.com/company/storify" class="social-icon">
-                  <img src="https://img.icons8.com/ios-filled/50/4640DE/linkedin.png" alt="LinkedIn">
-                </a>
-              </div>
-
-              <p style="margin: 0 0 8px;">
-                <a href="https://storify.app">www.storify.app</a> | <a href="mailto:support@storify.app">support@storify.app</a>
+              <p class="footer-logo">Storify</p>
+              <p style="margin: 8px 0;">
+                <a href="mailto:contact@storify.app">contact@storify.app</a>
               </p>
-              <p style="margin: 0;">
+              
+              <!-- Social Media Links -->
+              <div class="social-links">
+                <a href="https://www.facebook.com" target="_blank" rel="noopener">
+                  <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook" />
+                </a>
+                <a href="https://x.com" target="_blank" rel="noopener">
+                  <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" />
+                </a>
+                 <a href="https://www.youtube.com" target="_blank" rel="noopener">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube" />
+                 </a>
+              </div>
+              
+              <p style="margin-top: 16px; color: #a0aec0; font-size: 11px;">
                 © ${new Date().getFullYear()} Storify. All rights reserved.
               </p>
             </td>
