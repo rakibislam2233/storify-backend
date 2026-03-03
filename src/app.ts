@@ -144,16 +144,6 @@ const getAdditionalSecurityHeaders = () => {
   };
 };
 
-// Configure MongoDB sanitization
-const getMongoSanitizeConfig = () => {
-  return mongoSanitize({
-    replaceWith: '_',
-    onSanitize: ({ req, key }) => {
-      console.warn(`Sanitized key: ${key} in request from ${req.ip}`);
-    },
-  });
-};
-
 //Configure HTTP Parameter Pollution protection
 const getHppConfig = () => {
   return hpp({
@@ -247,7 +237,6 @@ const allowedOrigins = getAllowedOrigins();
 const corsOptions = getCorsOptions(allowedOrigins);
 
 app.use(cors(corsOptions));
-// app.options('(.*)', cors(corsOptions));
 
 // Static file serving with security headers
 app.use(
