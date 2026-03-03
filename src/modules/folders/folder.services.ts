@@ -62,7 +62,59 @@ const createFolder = async (userId: string, payload: any) => {
   return result;
 };
 
+// -- Get Folder By Id --
+const getFolderById = async (id: string, userId: string) => {
+  const cacheKey = FOLDER_CACHE_KEY.FOLDER(id);
+  const cachedFolder = await RedisUtils.getCache<any>(cacheKey);
+
+  if (cachedFolder) {
+    // Check if user owns this folder
+    if (cachedFolder.userId !== userId) {
+      throw new ApiError(StatusCodes.FORBIDDEN, 'You do not have permission to access this folder');
+    }
+    return cachedFolder;
+  }
+
+  const folder = await FolderRepository.getFolderById(id);
+
+  if (!folder) {
+    throw new ApiError(StatusCodes.NOT_FOUND, 'Folder not found');
+  }
+
+  // Check if user owns this folder
+  if (folder.userId !== userId) {
+    throw new ApiError(StatusCodes.FORBIDDEN, 'You do not have permission to access this folder');
+  }
+  await RedisUtils.setCache(cacheKey, folder, FOLDER_CACHE_TTL.FOLDER);
+
+  return folder;
+};
+
+// -- Get All Folders By User Id --
+const getFoldersByUserId = async (userId: string, filters: IFolderFilter, options: any) => {
+  const cacheKey = FOLDER_CACHE_KEY.USER_FOLDERS(userId);
+  const cachedFolders = await RedisUtils.getCache<any>(cacheKey);
+  if (cachedFolders && !filters.searchTerm && !filters.level && !filters.parentId) {
+    return cachedFolders;
+  }
+  // Check user exists
+  const user = await UserRepository.getUserById(userId);
+  if (!user || user.status === UserStatus.DELETED) {
+    throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
+  }
+  const result = await FolderRepository.getFoldersByUserId(userId, filters, options);
+
+  // Only cache if no filters applied
+  if (!filters.searchTerm && !filters.level && !filters.parentId) {
+    await RedisUtils.setCache(cacheKey, result, FOLDER_CACHE_TTL.USER_FOLDERS);
+  }
+
+  return result;
+};
+
 // -- Export Folder Service --
 export const FolderService = {
   createFolder,
+  getFolderById,
+  getFoldersByUserId,
 };
