@@ -36,7 +36,7 @@ const getUserById = async (id: string) => {
       status: true,
       role: true,
       createdAt: true,
-      activePackageId: true,
+      activePackage: true,
     },
   });
 };

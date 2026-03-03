@@ -128,6 +128,15 @@ const getChildFoldersByParentId = async (parentId: string, userId: string): Prom
   });
 };
 
+// -- Get Root Folder by parentId
+const getRootFoldersByParentId = async (parentId: string): Promise<IFolder | null> => {
+  return database.folder.findUnique({
+    where: {
+      id: parentId,
+    },
+  });
+};
+
 // -- Update Folder --
 const updateFolder = async (
   id: string,
@@ -189,6 +198,7 @@ export const FolderRepository = {
   getFolderById,
   getFoldersByUserId,
   getRootFoldersByUserId,
+  getRootFoldersByParentId,
   getChildFoldersByParentId,
   updateFolder,
   deleteFolder,
